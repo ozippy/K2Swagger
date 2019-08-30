@@ -1,0 +1,1395 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Microsoft Graph API",
+        "version": "1.0.0",
+        "title": "Microsoft"
+    },
+    "host": "graph.microsoft.com",
+    "tags": [
+        {
+            "name": "Groups",
+            "description": "Operations about Groups"
+        },
+        {
+            "name": "Users",
+            "description": "Operations about Users"
+        },
+        {
+            "name": "Teams",
+            "description": "Operations about Teams"
+        },
+        {
+            "name": "Planner",
+            "description": "Operations about Planner"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/v1.0/me": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Me",
+                "operationId": "me",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/users/{upn}/photo/$value": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Get user photo",
+                "operationId": "getPhoto",
+                "parameters": [
+                    {
+                        "name": "upn",
+                        "in": "path",
+                        "description": "upn",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/groups": {
+            "get": {
+                "tags": [
+                    "Groups"
+                ],
+                "description": "List All Groups",
+                "operationId": "listGroups",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Groups"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Create new group",
+                "operationId": "createGroup",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New Group properties",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{id}": {
+            "get": {
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Get Group Details",
+                "operationId": "getGroup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    }
+                }
+            }
+        },
+        "/V1.0/groups/{id}/team": {
+            "put": {
+                "tags": [
+                    "Teams"
+                ],
+                "description": "Create new Team",
+                "operationId": "createTeam",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New Team properties",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Team"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "409": {
+                        "description": "Team already exists"
+                    }
+                }
+            }
+        },
+        "/beta/groups/{id}/team/channels": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "description": "Get Team Channels",
+                "operationId": "getTeamChannels",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Channels"
+                        }
+                    }
+                }
+            }
+        },
+        "/beta/groups/{GroupID}/team/channels/{ChannelID}/chatthreads": {
+            "post": {
+                "tags": [
+                    "Teams"
+                ],
+                "description": "Create Message",
+                "operationId": "createMessage",
+                "parameters": [
+                    {
+                        "name": "GroupID",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ChannelID",
+                        "in": "path",
+                        "description": "Channel ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Message",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{id}/members/$ref": {
+            "post": {
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Add Member",
+                "operationId": "addMember",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{id}/owners/$ref": {
+            "post": {
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Add Owner",
+                "operationId": "addOwner",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{groupid}/owners/{ownerid}/$ref": {
+            "delete": {
+                "tags": [
+                    "Groups"
+                ],
+                "description": "Remove Owner",
+                "operationId": "removeOwner",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ownerid",
+                        "in": "path",
+                        "description": "Owner ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/v1.0/users/{userPrincipalName}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Get User",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "name": "userPrincipalName",
+                        "in": "path",
+                        "description": "userPrincipalName",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Get Users",
+                "operationId": "getUsers",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/sites/{domain}:/sites/{sitename}": {
+            "get": {
+                "tags": [
+                    "Sites"
+                ],
+                "description": "Get Site",
+                "operationId": "getSite",
+                "parameters": [
+                    {
+                        "name": "sitename",
+                        "in": "path",
+                        "description": "sitename",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "domain",
+                        "in": "path",
+                        "description": "domain",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Site"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/sites/{siteid}/lists": {
+            "get": {
+                "tags": [
+                    "Sites"
+                ],
+                "description": "Get Lists from Site",
+                "operationId": "getLists",
+                "parameters": [
+                    {
+                        "name": "siteid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Lists"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/sites/{siteid}/lists/{listid}/items": {
+            "get": {
+                "tags": [
+                    "Sites"
+                ],
+                "description": "Get Items from a list",
+                "operationId": "getItems",
+                "parameters": [
+                    {
+                        "name": "siteid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "listid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/sites/{siteid}/lists/{listid}/items/{itemid}": {
+            "get": {
+                "tags": [
+                    "Sites"
+                ],
+                "description": "Get Item content",
+                "operationId": "getItem",
+                "parameters": [
+                    {
+                        "name": "siteid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "listid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "itemid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ItemContent"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{groupid}/drives": {
+            "get": {
+                "tags": [
+                    "Sites"
+                ],
+                "description": "Get drives from a site",
+                "operationId": "getDrives",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Drives"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/drives/{driveid}/root:/{drivepath}:/children": {
+            "get": {
+                "tags": [
+                    "Sites"
+                ],
+                "description": "Get content from a drive",
+                "operationId": "getDriveContent",
+                "parameters": [
+                    {
+                        "name": "driveid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "drivepath",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/DriveItems"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/teams/{teamid}": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "description": "Get Team Metadata",
+                "operationId": "getTeamMetadata",
+                "parameters": [
+                    {
+                        "name": "teamid",
+                        "in": "path",
+                        "description": "siteid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Team"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{groupid}/owners": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "description": "Get Group Owners",
+                "operationId": "getGroupOwners",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "path",
+                        "description": "groupid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/planner/plans/{planid}/buckets": {
+            "get": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Get buckets by plan id",
+                "operationId": "getBucketsByPlanId",
+                "parameters": [
+                    {
+                        "name": "planid",
+                        "in": "path",
+                        "description": "planid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Buckets"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/users/{userid}/planner/tasks": {
+            "get": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Get User Tasks",
+                "operationId": "getUserTasks",
+                "parameters": [
+                    {
+                        "name": "userid",
+                        "in": "path",
+                        "description": "userid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Tasks"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/me/planner/tasks": {
+            "get": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Get My Tasks",
+                "operationId": "getMyTasks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Tasks"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/planner/tasks": {
+            "post": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Create Task",
+                "operationId": "createTask",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New task properties",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TaskItem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TaskItem"
+                        },
+                        "headers": {
+                            "ETag": {
+                                "description": "Used as caching key for future requests",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/planner/tasks/{taskid}": {
+            "get": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Get task by id",
+                "operationId": "getTaskById",
+                "parameters": [
+                    {
+                        "name": "taskid",
+                        "in": "path",
+                        "description": "taskid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TaskItem"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1.0/planner/tasks/{taskid}/details": {
+            "get": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Get task details by id",
+                "operationId": "getTaskDetailsById",
+                "parameters": [
+                    {
+                        "name": "taskid",
+                        "in": "path",
+                        "description": "taskid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TaskDetails"
+                        },
+                        "headers": {
+                            "ETag": {
+                                "description": "Used as caching key for future requests",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Planner"
+                ],
+                "description": "Get task details by id",
+                "operationId": "updateTaskDetailsById",
+                "parameters": [
+                    {
+                        "name": "taskid",
+                        "in": "path",
+                        "description": "taskid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New task detail properties",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TaskDetails"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TaskDetails"
+                        },
+                        "headers": {
+                            "ETag": {
+                                "description": "Used as caching key for future requests",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Group": {
+            "type": "object",
+            "required": [
+                "displayName",
+                "groupTypes",
+                "mailEnabled",
+                "mailNickname",
+                "securityEnabled"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "groupTypes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "securityEnabled": {
+                    "type": "boolean"
+                },
+                "mailEnabled": {
+                    "type": "boolean"
+                },
+                "mail": {
+                    "type": "string"
+                },
+                "mailNickname": {
+                    "type": "string"
+                },
+                "visibility": {
+                    "type": "string"
+                },
+                "createdDateTime": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "description": "Model for Group"
+        },
+        "Groups": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Group"
+                    }
+                }
+            },
+            "description": "Model for Groups"
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "@odata.id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "userPrincipalName": {
+                    "type": "string"
+                }
+            },
+            "description": "Model for User"
+        },
+        "Users": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/User"
+                    }
+                }
+            },
+            "description": "Model for Users"
+        },
+        "Team": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "webUrl": {
+                    "type": "string"
+                },
+                "funSettings": {
+                    "$ref": "#/definitions/FunSettings"
+                },
+                "memberSettings": {
+                    "$ref": "#/definitions/MemberSettings"
+                },
+                "messagingSettings": {
+                    "$ref": "#/definitions/MessagingSettings"
+                }
+            },
+            "description": "Model for Team"
+        },
+        "FunSettings": {
+            "properties": {
+                "allowGiphy": {
+                    "type": "boolean"
+                },
+                "giphyContentRating": {
+                    "type": "string"
+                }
+            },
+            "description": "Model for FunSettings"
+        },
+        "GuestSettings": {
+            "properties": {
+                "allowCreateUpdateChannels": {
+                    "type": "boolean"
+                },
+                "allowDeleteChannels": {
+                    "type": "boolean"
+                }
+            },
+            "description": "Model for GuestSettings"
+        },
+        "MemberSettings": {
+            "properties": {
+                "allowCreateUpdateChannels": {
+                    "type": "boolean"
+                }
+            },
+            "description": "Model for MemberSettings"
+        },
+        "MessagingSettings": {
+            "properties": {
+                "allowUserDeleteMessages": {
+                    "type": "boolean"
+                },
+                "allowUserEditMessages": {
+                    "type": "boolean"
+                }
+            },
+            "description": "Model for MessagingSettings"
+        },
+        "Channel": {
+            "type": "object",
+            "required": [
+                "displayName"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "description": "Model for Channel"
+        },
+        "Channels": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Channel"
+                    }
+                }
+            },
+            "description": "Model for Channels"
+        },
+        "Body": {
+            "required": [
+                "content"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "contentType": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "description": "Model for Body"
+        },
+        "RootMessage": {
+            "required": [
+                "body"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/Body"
+                }
+            },
+            "description": "Model for RootMessage"
+        },
+        "Message": {
+            "required": [
+                "rootMessage"
+            ],
+            "properties": {
+                "rootMessage": {
+                    "$ref": "#/definitions/RootMessage"
+                }
+            },
+            "description": "Model for Message"
+        },
+        "Site": {
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "createdDateTime": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastModifiedDateTime": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "webUrl": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                }
+            }
+        },
+        "List": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "webUrl": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Lists": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/List"
+                    }
+                }
+            },
+            "description": "Model for Lists"
+        },
+        "Item": {
+            "properties": {
+                "webUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Items": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Item"
+                    }
+                }
+            },
+            "description": "Model for Items"
+        },
+        "ItemContent": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "webUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Drive": {
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "webUrl": {
+                    "type": "string"
+                },
+                "driveType": {
+                    "type": "string"
+                }
+            }
+        },
+        "Drives": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Drive"
+                    }
+                }
+            },
+            "description": "Model for Drives"
+        },
+        "DriveItem": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "webUrl": {
+                    "type": "string"
+                },
+                "@microsoft.graph.downloadUrl": {
+                    "type": "string"
+                }
+            }
+        },
+        "DriveItems": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DriveItem"
+                    }
+                }
+            },
+            "description": "Model for Drives"
+        },
+        "Tasks": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TaskItem"
+                    }
+                }
+            },
+            "description": "Model for Tasks"
+        },
+        "Buckets": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "@odata.count": {
+                    "type": "number"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Bucket"
+                    }
+                }
+            },
+            "description": "Model for Buckets"
+        },
+        "Bucket": {
+            "properties": {
+                "@odata.etag": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "planId": {
+                    "type": "string"
+                },
+                "orderHint": {
+                    "type": "string"
+                }
+            }
+        },
+        "TaskDetails": {
+            "properties": {
+                "@odata.etag": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "previewType": {
+                    "type": "string"
+                },
+                "references": {
+                    "type": "object"
+                },
+                "checklist": {
+                    "type": "object"
+                }
+            }
+        },
+        "TaskItem": {
+            "properties": {
+                "@odata.etag": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "planId": {
+                    "type": "string"
+                },
+                "bucketId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "orderHint": {
+                    "type": "string"
+                },
+                "assigneePriority": {
+                    "type": "string"
+                },
+                "percentComplete": {
+                    "type": "number"
+                },
+                "startDateTime": {
+                    "type": "string"
+                },
+                "createdDateTime": {
+                    "type": "string"
+                },
+                "dueDateTime": {
+                    "type": "string"
+                },
+                "hasDescription": {
+                    "type": "boolean"
+                },
+                "previewType": {
+                    "type": "string"
+                },
+                "completedBy": {
+                    "type": "object",
+                    "properties": {
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "displayName": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "completedDateTime": {
+                    "type": "string"
+                },
+                "referenceCount": {
+                    "type": "number"
+                },
+                "checklistItemCount": {
+                    "type": "number"
+                },
+                "activeChecklistItemCount": {
+                    "type": "number"
+                },
+                "conversationThreadId": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "type": "object",
+                    "properties": {
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "displayName": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "appliedCategories": {
+                    "type": "object"
+                },
+                "assignments": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}
